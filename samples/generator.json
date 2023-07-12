@@ -1,0 +1,506 @@
+{
+  "$schema": "https://cloudevents.io/schemas/registry",
+  "specversion": "0.5-wip",
+  "endpointGenerators": {
+    "webhook": {
+      "id": "webhook",
+      "format": "HTTP/1.1+CloudEvents/1.0",
+      "usage": "producer",
+      "apply": {
+        "path": "/",
+        "method": "POST",
+        "cloudevents": {
+          "supportedContentModes": [
+            "binary",
+            "structured",
+            "batch"
+          ]
+        }
+      },
+      "to": "#definitionGroups/Contoso.CRM.Events",
+      "with": {}
+    }
+  },
+  "endpoints": {
+    "topics": {
+      "id": "topics",
+      "format": "AMQP/1.0+CloudEvents/1.0",
+      "usage": "producer",
+      "config": {
+      },
+      "definitionGenerators": {
+        "topic1": {
+          "apply": {
+            "properties": {
+              "to": "topic://CRM/Customer/Created/{id}"
+            },
+            "cloudevents": {
+              "supportedContentModes": [
+                "binary",
+                "structured"
+              ]
+            }
+          },
+          "to": "#eventGroups/Contoso.CRM.Events/definitions/Contoso.CRM.Events.CustomerCreated",
+          "with": {
+            "map": [
+              {
+                ".apply.$id": ".to.cloudevents.metadata.attributes.subject"
+              }
+            ]
+          }
+        }
+      },
+      "definitions": {
+        "topic1": {
+          "generatedBy": "#endpoints/topics/definitionsGenerators/topic1",
+          "properties": {
+            "to": ""
+          },
+          "cloudevents": {
+            "metadata": {
+              "attributes": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "type": {
+                  "type": "string",
+                  "value": "Contoso.CRM.Events.CustomerCreated",
+                  "required": true
+                },
+                "time": {
+                  "type": "datetime",
+                  "required": true
+                },
+                "source": {
+                  "type": "uritemplate",
+                  "value": "/crm/customers",
+                  "required": true
+                },
+                "subject": {
+                  "type": "uuid",
+                  "required": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "webhook": {
+      "generatedBy": "#endpointGenerators/webhook",
+      "id": "webhook",
+      "format": "HTTP/1.1+CloudEvents/1.0",
+      "definitions": {
+        "Contoso.CRM.Events.CustomerCreated": {
+          "id": "Contoso.CRM.Events.CustomerCreated",
+          "description": "An order has been placed",
+          "path": "/",
+          "method": "POST",
+          "cloudevents": {
+            "supportedContentModes": [
+              "binary",
+              "structured",
+              "batch"
+            ],
+            "metadata": {
+              "attributes": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "type": {
+                  "type": "string",
+                  "value": "Contoso.CRM.Events.CustomerCreated",
+                  "required": true
+                },
+                "time": {
+                  "type": "datetime",
+                  "required": true
+                },
+                "source": {
+                  "type": "uritemplate",
+                  "value": "/crm/customers",
+                  "required": true
+                },
+                "subject": {
+                  "type": "uuid",
+                  "required": true
+                }
+              }
+            },
+            "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerCreatedEventData"
+          }
+        },
+        "Contoso.CRM.Events.CustomerUpdated": {
+          "id": "Contoso.CRM.Events.CustomerUpdated",
+          "description": "An order has been placed",
+          "path": "/",
+          "method": "POST",
+          "cloudevents": {
+            "supportedContentModes": [
+              "binary",
+              "structured",
+              "batch"
+            ],
+            "metadata": {
+              "attributes": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "type": {
+                  "type": "string",
+                  "value": "Contoso.CRM.Events.CustomerUpdated",
+                  "required": true
+                },
+                "time": {
+                  "type": "datetime",
+                  "required": true
+                },
+                "source": {
+                  "type": "uritemplate",
+                  "value": "/crm/customers",
+                  "required": true
+                }
+              }
+            },
+            "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerUpdatedEventData"
+          }
+        },
+        "Contoso.CRM.Events.CustomerDeleted": {
+          "id": "Contoso.CRM.Events.CustomerDeleted",
+          "description": "A customer has been deleted",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerDeleted",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerDeletedEventData"
+        },
+        "Contoso.CRM.Events.CustomerStatusUpdated": {
+          "id": "Contoso.CRM.Events.CustomerStatusUpdated",
+          "description": "A customer's status has been updated",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerStatusUpdated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerStatusUpdatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerAddressUpdated": {
+          "id": "Contoso.CRM.Events.CustomerAddressUpdated",
+          "description": "A customer's address has been updated",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerAddressUpdated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerAddressUpdatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerContactUpdated": {
+          "id": "Contoso.CRM.Events.CustomerContactUpdated",
+          "description": "A customer's contact information has been updated",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerContactUpdated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerContactUpdatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerNoteAdded": {
+          "id": "Contoso.CRM.Events.CustomerNoteAdded",
+          "description": "A note has been added to a customer",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerContactUpdated",
+                "required": true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Contoso.CRM.Eventing.Http": {
+    "id": "Contoso.CRM.Eventing.Http",
+    "usage": "producer",
+    "config": {
+      "protocol": "HTTP",
+      "strict": false,
+      "endpoints": [
+        "https://erpsystem.com/events"
+      ]
+    },
+    "definitionGroups": [
+      "#/definitionGroups/Contoso.CRM.Events"
+    ],
+    "format": "CloudEvents/1.0"
+  },
+  "definitionGroups": {
+    "Contoso.CRM.Events": {
+      "id": "Contoso.CRM.Events",
+      "format": "CloudEvents/1.0",
+      "definitions": {
+        "Contoso.CRM.Events.CustomerCreated": {
+          "id": "Contoso.CRM.Events.CustomerCreated",
+          "description": "An order has been placed",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerCreated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              },
+              "subject": {
+                "type": "uuid",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerCreatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerUpdated": {
+          "id": "Contoso.CRM.Events.CustomerUpdated",
+          "description": "An order has been placed",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerUpdated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerUpdatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerDeleted": {
+          "id": "Contoso.CRM.Events.CustomerDeleted",
+          "description": "A customer has been deleted",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerDeleted",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerDeletedEventData"
+        },
+        "Contoso.CRM.Events.CustomerStatusUpdated": {
+          "id": "Contoso.CRM.Events.CustomerStatusUpdated",
+          "description": "A customer's status has been updated",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerStatusUpdated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerStatusUpdatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerAddressUpdated": {
+          "id": "Contoso.CRM.Events.CustomerAddressUpdated",
+          "description": "A customer's address has been updated",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerAddressUpdated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerAddressUpdatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerContactUpdated": {
+          "id": "Contoso.CRM.Events.CustomerContactUpdated",
+          "description": "A customer's contact information has been updated",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerContactUpdated",
+                "required": true
+              },
+              "time": {
+                "type": "datetime",
+                "required": true
+              },
+              "source": {
+                "type": "uritemplate",
+                "value": "/crm/customers",
+                "required": true
+              }
+            }
+          },
+          "schemaurl": "#/schemaGroups/Contoso.CRM.Events/schemas/customerContactUpdatedEventData"
+        },
+        "Contoso.CRM.Events.CustomerNoteAdded": {
+          "id": "Contoso.CRM.Events.CustomerNoteAdded",
+          "description": "A note has been added to a customer",
+          "metadata": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "type": {
+                "type": "string",
+                "value": "Contoso.CRM.Events.CustomerContactUpdated",
+                "required": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
