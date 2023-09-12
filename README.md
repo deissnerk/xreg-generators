@@ -82,6 +82,7 @@ A generator for `definition` could have this form:
 }
 ```
 
+
 The `apply` section contains additions that are supposed to be added to another `definition`, while the `to` attribute
 links to the original definition. In the `with` section, it is possible to provide additional contextual information.
 One application for this is to specify values for parameters that were used in the original definition. If the original
@@ -129,13 +130,13 @@ For groups or endpoints, a generator could apply the content of the `apply` sect
         ]
       }
     },
-    "to": "#definitionGroups/Contoso.CRM.Events",
+    "toEachOf": "#definitionGroups/Contoso.CRM.Events",
     "with": {}
   }
 }
 ```
 
 In the example above, a group of pre-defined CloudEvents is bound to an HTTP endpoint. As the HTTP endpoint represents
-an event gateway, there is no assigment of different events to different paths. Instead, all events get the `path` "`\`"
+an event gateway, there is no assigment of different events to different paths. Instead, all events get the `path` "`/`"
 and the http method `POST`. The `cloudevents` sections gets enriched by a statement specifying the supported content
 modes.

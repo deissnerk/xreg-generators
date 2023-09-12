@@ -55,7 +55,7 @@
         "topic1": {
           "generatedBy": "#endpoints/topics/definitionsGenerators/topic1",
           "properties": {
-            "to": ""
+            "to": "topic://CRM/Customer/Created/{id}"
           },
           "cloudevents": {
             "metadata": {
